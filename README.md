@@ -1,10 +1,12 @@
 # dsh-workspace-file-export
 
+![](example.png)
+
 DeepSeek-Harness 插件，提供工作区文件导出（下载到本地）功能。
 
 在文档预览头部添加「Download」链接，提供仅限已注册工作区内的认证文件下载。
 
-## 为何不使用 dsh-workspace-download
+## 为何不使用名称 dsh-workspace-download
 
 因 npm 禁止上传含 download 的包名，因此使用 dsh-workspace-file-export 。
 
