@@ -1,0 +1,55 @@
+{
+  "name": "dsh-workspace-file-export",
+  "version": "0.1.0",
+  "description": "Authenticated HTTP download of files inside registered dsh workspaces.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "download",
+    "file-download",
+    "file-export"
+  ],
+  "homepage": "https://github.com/honghe/dsh-workspace-file-export#readme",
+  "bugs": {
+    "url": "https://github.com/honghe/dsh-workspace-file-export/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/honghe/dsh-workspace-file-export.git"
+  },
+  "author": "honghe",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "prepack": "tsdown"
+  },
+  "devDependencies": {
+    "tsdown": "^0.22.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  }
+}

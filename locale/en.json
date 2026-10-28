@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Workspace download",
+    "description": "Adds a download link to the document preview header and serves authenticated file downloads restricted to registered workspaces."
+  }
+}

@@ -1,0 +1,5 @@
+# Workspace file export bundle: one Host row serving authenticated file
+# downloads restricted to registered workspaces.
+- insert:
+    - id: dsh-workspace-file-export
+      name: 'dsh-workspace-file-export'
