@@ -1,6 +1,6 @@
 {
   "name": "dsh-workspace-file-export",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Authenticated HTTP download of files inside registered dsh workspaces.",
   "keywords": [
     "dsh",
@@ -33,6 +33,7 @@
     "index.js",
     "client.js",
     "cordis.patch.yml",
+    "example.png",
     "locale/*.json",
     "icon.svg"
   ],
