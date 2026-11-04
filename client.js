@@ -5,8 +5,8 @@ let react = require("react");
 
 // src/client/index.tsx
 const inject = ["slots"];
-function DownloadLink(props) {
-	const href = `/api/workspace-download?path=${encodeURIComponent(props.absolutePath)}`;
+function DownloadLink(props) {	
+	const href = new URL("api/workspace-download?path=" + encodeURIComponent(props.absolutePath), new URL(".", document.baseURI).href).href;
 	return (0, react.createElement)("a", {
 		href,
 		title: "Download this file",
