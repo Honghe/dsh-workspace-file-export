@@ -21,6 +21,15 @@ import { Readable } from 'node:stream'
 export const name = 'workspace-file-export'
 export const inject = ['connection', 'workspaceRegistry']
 
+/**
+ * RFC 5987 `attr-char`: encodeURIComponent 会残留 `' ( ) *`，它们在
+ * filename* 的值里非法，需要额外百分号编码。
+ */
+function encodeRfc5987(value) {
+  return encodeURIComponent(value).replace(/['()*]/g, (char) =>
+    `%${char.charCodeAt(0).toString(16).toUpperCase()}`)
+}
+
 export function apply(ctx) {
   ctx.connection.fetch.register({
     path: '/api/workspace-download',
@@ -51,11 +60,17 @@ export function apply(ctx) {
       if (!info.isFile()) return new Response('not a regular file', { status: 404 })
 
       const filename = basename(target)
+      // Header 值必须是 ByteString（每个字符 <= 0xFF）。把中文直接写进
+      // filename="..." 会让 undici 的 new Response() 抛 TypeError，
+      // 整个路由被 dsh 连接层转成 400（中文文件名下载失败的根因）。
+      // 因此 filename 只保留可打印 ASCII 兜底，真正的 UTF-8 名字走 RFC 5987
+      // 的 filename* 参数（浏览器优先使用它）。
+      const asciiName = filename.replace(/[^ -~]/g, '_').replace(/["\\]/g, '_')
       const headers = {
         'content-type': 'application/octet-stream',
         'content-length': String(info.size),
         'content-disposition':
-          `attachment; filename="${filename.replaceAll('"', '_')}"; filename*=UTF-8''${encodeURIComponent(filename)}`,
+          `attachment; filename="${asciiName}"; filename*=UTF-8''${encodeRfc5987(filename)}`,
         'cache-control': 'no-store',
       }
       if (request.method === 'HEAD') return new Response(null, { status: 200, headers })

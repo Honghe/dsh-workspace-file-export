@@ -16,7 +16,13 @@ interface DownloadLinkProps {
 }
 
 function DownloadLink(props: DownloadLinkProps) {
-  const href = `/api/workspace-download?path=${encodeURIComponent(props.absolutePath)}`
+  // Sub-path safe: the SPA is served under /bi/bi-dsh/ with
+  // <base href="./">, so resolve the route against the document base
+  // instead of hard-coding the server root.
+  const href = new URL(
+    `api/workspace-download?path=${encodeURIComponent(props.absolutePath)}`,
+    new URL('.', document.baseURI).href,
+  ).href
   return createElement('a', {
     href,
     title: 'Download this file',
